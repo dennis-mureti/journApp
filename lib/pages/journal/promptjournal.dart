@@ -136,7 +136,7 @@ class _PromptJournalPageState extends State<PromptJournalPage> {
                       ),
                       Row(
                         children: const [
-                          Icon(Icons.group, size: 26),
+                          Icon(Icons.transcribe, size: 26),
                           SizedBox(width: 16),
                           Icon(Icons.picture_as_pdf, size: 26),
                         ],

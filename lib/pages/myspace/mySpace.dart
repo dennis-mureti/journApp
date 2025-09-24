@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
+import 'package:journapp/pages/goal/myGoals.dart';
+import 'package:journapp/pages/plan/myPlan.dart';
+import 'package:journapp/pages/report/reportPage.dart';
+import 'package:journapp/pages/visionBoard/visionBoard.dart';
 
 class MySpacePage extends StatefulWidget {
   const MySpacePage({super.key});
@@ -15,9 +19,9 @@ class _MySpacePageState extends State<MySpacePage> {
   final Map<String, Color> cardColors = {
     'My Goals': const Color.fromARGB(255, 26, 102, 156),
     'My Plans': const Color.fromARGB(255, 173, 173, 173),
-    'My Reports': Color.fromARGB(255, 26, 102, 156),
-    'My Story': Color.fromARGB(255, 173, 173, 173),
-    'Vision Board': Color.fromARGB(255, 173, 173, 173),
+    'My Reports': const Color.fromARGB(255, 26, 102, 156),
+    'My Story': const Color.fromARGB(255, 173, 173, 173),
+    'Vision Board': const Color.fromARGB(255, 173, 173, 173),
   };
 
   @override
@@ -32,23 +36,15 @@ class _MySpacePageState extends State<MySpacePage> {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 0,
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.search),
-        //     onPressed: () {
-        //       // Handle search action
-        //     },
-        //   ),
-        // ],
       ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
-
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
+
               // Search bar
               Container(
                 decoration: BoxDecoration(
@@ -134,10 +130,10 @@ class _MySpacePageState extends State<MySpacePage> {
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Container(
-        height: 120, // Increased card height
+        height: 120,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: cardColor, // Custom card color
+          color: cardColor,
           borderRadius: BorderRadius.circular(12),
         ),
         child: ListTile(
@@ -145,15 +141,38 @@ class _MySpacePageState extends State<MySpacePage> {
             horizontal: 20,
             vertical: 16,
           ),
-          leading: Icon(icon, size: 32), // Larger icon
+          leading: Icon(icon, size: 32),
           title: Text(
             title,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
           ),
           trailing: const Icon(Icons.arrow_forward_ios, size: 16),
           onTap: () {
-            // Handle section tap
-            _showSectionDialog(context, title);
+            if (title == "Vision Board") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const VisionBoardPage(),
+                ),
+              );
+            } else if (title == "My Goals") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyGoalsPage()),
+              );
+            } else if (title == "My Plans") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const MyPlanPage()),
+              );
+            } else if (title == "My Reports") {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ReportsPage()),
+              );
+            } else {
+              _showSectionDialog(context, title);
+            }
           },
         ),
       ),
@@ -169,9 +188,7 @@ class _MySpacePageState extends State<MySpacePage> {
           content: Text('$title content would appear here.'),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('OK'),
             ),
           ],

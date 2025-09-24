@@ -12,12 +12,60 @@ class _LoginPageState extends State<LoginPage> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  // Dummy credentials
+  static const String dummyUsername = 'demo';
+  static const String dummyPassword = 'password123';
 
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
     super.dispose();
+  }
+
+  void _attemptLogin() async {
+    final username = _usernameController.text.trim();
+    final password = _passwordController.text;
+
+    // Basic validation
+    if (username.isEmpty || password.isEmpty) {
+      Get.snackbar(
+        'Missing fields',
+        'Please enter both username and password.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    // Simulate a small delay (like a network call)
+    await Future.delayed(const Duration(milliseconds: 500));
+
+    if (username == dummyUsername && password == dummyPassword) {
+      // Success
+      setState(() => _isLoading = false);
+      Get.snackbar(
+        'Success',
+        'Logged in as $username',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
+      );
+      // Navigate to home (you already used this route elsewhere)
+      Get.toNamed('/home');
+    } else {
+      // Failure
+      setState(() => _isLoading = false);
+      Get.snackbar(
+        'Invalid credentials',
+        'Username or password is incorrect.',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.white,
+      );
+    }
   }
 
   @override
@@ -84,16 +132,29 @@ class _LoginPageState extends State<LoginPage> {
                     child: TextField(
                       controller: _passwordController,
                       obscureText: _obscurePassword,
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: '************',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        prefixIcon: Icon(
+                        hintStyle: const TextStyle(color: Colors.grey),
+                        prefixIcon: const Icon(
                           Icons.lock,
                           color: Colors.black,
                           size: 20,
                         ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.black54,
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
+                        ),
                         border: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
+                        contentPadding: const EdgeInsets.symmetric(
                           horizontal: 20,
                           vertical: 16,
                         ),
@@ -106,6 +167,12 @@ class _LoginPageState extends State<LoginPage> {
                   GestureDetector(
                     onTap: () {
                       // Handle forgot password
+                      Get.snackbar(
+                        'Forgot password',
+                        'This is a demo app — no password recovery.',
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.white,
+                      );
                     },
                     child: const Text(
                       'Forgot your Password? Click Here',
@@ -123,10 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Handle sign in
-                        Get.toNamed('/home');
-                      },
+                      onPressed: _isLoading ? null : _attemptLogin,
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 5, 102, 102),
                         shape: RoundedRectangleBorder(
@@ -134,14 +198,16 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         elevation: 2,
                       ),
-                      child: const Text(
-                        'Sign In',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Sign In',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -195,11 +261,6 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                             shape: BoxShape.circle,
                           ),
-                          // child: const Icon(
-                          //   Icons.g_mobiledata,
-                          //   color: Colors.red,
-                          //   size: 30,
-                          // ),
                           child: Image.asset(
                             'assets/google.png',
                             width: 30,
@@ -243,12 +304,6 @@ class _LoginPageState extends State<LoginPage> {
                             color: Colors.white,
                             shape: BoxShape.circle,
                           ),
-
-                          // child: const Icon(
-                          //   Icons.image,
-                          //   color: Colors.blue,
-                          //   size: 30,
-                          // ),
                           child: Image.asset(
                             'assets/linkedin.png',
                             width: 30,
@@ -259,6 +314,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                  const SizedBox(height: 12),
+
+                  // Info: show demo credentials
+                  const SizedBox(height: 8),
+                  // const Text(
+                  //   'Demo credentials: username: demo / password: password123',
+                  //   textAlign: TextAlign.center,
+                  //   style: TextStyle(fontSize: 12, color: Colors.black54),
+                  // ),
                 ],
               ),
             ),

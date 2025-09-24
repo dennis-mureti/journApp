@@ -112,7 +112,7 @@ class _FreeJournalPageState extends State<FreeJournalPage> {
                     const Positioned(
                       bottom: 8,
                       right: 56,
-                      child: Icon(Icons.group, color: Colors.black, size: 28),
+                      child: Icon(Icons.transcribe, color: Colors.black, size: 28),
                     ),
                     const Positioned(
                       bottom: 8,

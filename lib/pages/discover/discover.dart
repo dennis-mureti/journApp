@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
+import 'package:journapp/pages/discover/video.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({super.key});
@@ -13,7 +14,7 @@ class _DiscoverPageState extends State<DiscoverPage> {
 
   final List<String> videoThumbnails = [
     "assets/d1.png",
-    "assets/d1.png",
+    "assets/d2.png",
     "assets/d3.png",
     "assets/d4.png",
     "assets/d5.png",
@@ -67,7 +68,11 @@ class _DiscoverPageState extends State<DiscoverPage> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      // TODO: Navigate to video player
+                      // Navigate to VideoPage
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const VideoPage()),
+                      );
                     },
                     child: Stack(
                       alignment: Alignment.center,

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
+import 'package:journapp/pages/journal/journalArchivePage%20.dart';
+import 'package:journapp/pages/tutorial/tutorial.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -39,7 +41,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 4,
+        currentIndex: 0,
         onTap: (index) {
           // handle bottom nav tap
         },
@@ -64,7 +66,25 @@ class _ProfilePageState extends State<ProfilePage> {
               const PopupMenuItem(value: "resources", child: Text("Resources")),
               const PopupMenuItem(value: "about", child: Text("About")),
             ],
-            onSelected: (value) {},
+            onSelected: (value) {
+              if (value == "story") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const JournalArchivePage(),
+                  ),
+                );
+              } else if (value == "resources") {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("Resources tapped")),
+                );
+              } else if (value == "about") {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const TutorialPage()),
+                );
+              }
+            },
           ),
         ],
       ),

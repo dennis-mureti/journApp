@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
 import 'package:journapp/pages/journal/journal.dart';
 import 'package:journapp/pages/journal/promptjournal.dart';
+import 'package:journapp/pages/visionBoard/visionBoard.dart';
 
 class JournalListPage extends StatefulWidget {
   const JournalListPage({super.key});
@@ -49,7 +50,7 @@ class _JournalListPageState extends State<JournalListPage> {
           ),
         ],
       ),
-    
+
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView.builder(
@@ -71,6 +72,14 @@ class _JournalListPageState extends State<JournalListPage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => const PromptJournalPage(),
+                    ),
+                  );
+                }
+                if (journal["title"] == "Vision Board") {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VisionBoardPage(),
                     ),
                   );
                 }
@@ -104,7 +113,7 @@ class _JournalListPageState extends State<JournalListPage> {
           },
         ),
       ),
-    
+
       bottomNavigationBar: SafeArea(
         top: false,
         child: CustomBottomNavBar(
