@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
-// import your external bottom nav widget here
-// import 'my_bottom_nav_bar.dart';
+import 'package:journapp/pages/plan/monthlyPlan.dart';
+import 'package:journapp/pages/plan/weeklyPlan.dart';
 
 class MyPlanPage extends StatefulWidget {
   const MyPlanPage({super.key});
@@ -18,19 +18,19 @@ class _MyPlanPageState extends State<MyPlanPage> {
     {
       "title": "Breakfast",
       "subtitle": "Fresh Food",
-      "time": "06.30",
+      "time": "06:30",
       "done": true,
     },
     {
       "title": "Running",
       "subtitle": "5km Stadium",
-      "time": "07.30",
+      "time": "07:30",
       "done": false,
     },
     {
       "title": "Training",
       "subtitle": "1hr Gym",
-      "time": "10.30",
+      "time": "10:30",
       "done": false,
     },
   ];
@@ -39,19 +39,19 @@ class _MyPlanPageState extends State<MyPlanPage> {
     {
       "title": "Running",
       "subtitle": "10km Road",
-      "time": "06.30",
+      "time": "06:30",
       "done": true,
     },
     {
-      "title": "Running",
-      "subtitle": "5km Stadium",
-      "time": "07.30",
-      "done": false,
+      "title": "Stretching",
+      "subtitle": "Post-run routine",
+      "time": "07:45",
+      "done": true,
     },
     {
-      "title": "Training",
-      "subtitle": "1hr Gym",
-      "time": "10.30",
+      "title": "Gym Session",
+      "subtitle": "Upper body",
+      "time": "10:30",
       "done": false,
     },
   ];
@@ -60,81 +60,192 @@ class _MyPlanPageState extends State<MyPlanPage> {
     setState(() {
       _filter = value;
     });
-    ScaffoldMessenger.of(
-      context,
-    ).showSnackBar(SnackBar(content: Text("Switched to $_filter view")));
+
+    if (value == "Weekly") {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const WeeklyPlanPage()),
+      );
+    } else if (value == "Daily") {
+      // Stay on current page or go back to daily view
+    } else if (value == "Monthly") {
+      // Navigate to MonthlyPlanPage
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const MonthlyPlanPage()),
+      );
+    }
   }
 
-  Widget _buildPlanItem(Map<String, dynamic> plan, {bool isLast = false}) {
-    return InkWell(
-      onTap: () {
-        setState(() {
-          plan["done"] = !plan["done"];
-        });
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              "${plan["title"]} marked as ${plan["done"] ? "done" : "not done"}",
+  String _getTaskFeedback(String title, bool isNowDone) {
+    if (isNowDone) {
+      return "✅ $title — Nice work!";
+    } else {
+      return "↩️ $title — Back on your list.";
+    }
+  }
+
+  Widget _buildPlanItem(Map<String, dynamic> plan) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 250),
+      curve: Curves.easeOut,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(12),
+        onTap: () {
+          final wasDone = plan["done"];
+          setState(() {
+            plan["done"] = !wasDone;
+          });
+          // Show friendly feedback
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(_getTaskFeedback(plan["title"], !wasDone)),
+              duration: const Duration(milliseconds: 1200),
+              backgroundColor: Colors.grey.shade800,
+              behavior: SnackBarBehavior.floating,
             ),
-          ),
-        );
-      },
-      child: Row(
-        children: [
-          Column(
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+          child: Row(
             children: [
-              Icon(
-                Icons.circle,
-                size: 12,
-                color: plan["done"] ? Colors.black : Colors.grey,
+              Container(
+                width: 24,
+                height: 24,
+                decoration: BoxDecoration(
+                  color: plan["done"]
+                      ? Colors.green.shade500
+                      : Colors.grey.shade200,
+                  shape: BoxShape.circle,
+                ),
+                child: plan["done"]
+                    ? const Icon(Icons.check, size: 16, color: Colors.white)
+                    : null,
               ),
-              if (!isLast)
-                Container(height: 40, width: 1, color: Colors.grey.shade400),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      plan["title"],
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: plan["done"]
+                            ? Colors.grey.shade600
+                            : Colors.black87,
+                        decoration: plan["done"]
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      plan["subtitle"],
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Text(
+                plan["time"],
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: plan["done"]
+                      ? Colors.grey.shade500
+                      : Colors.grey.shade700,
+                ),
+              ),
             ],
           ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  plan["title"],
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    decoration: plan["done"]
-                        ? TextDecoration.lineThrough
-                        : TextDecoration.none,
-                  ),
-                ),
-                Text(
-                  plan["subtitle"],
-                  style: TextStyle(color: Colors.grey.shade600),
-                ),
-              ],
-            ),
-          ),
-          Text(plan["time"], style: TextStyle(color: Colors.grey.shade600)),
-        ],
+        ),
       ),
     );
   }
 
   Widget _buildSection(String title, List<Map<String, dynamic>> plans) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, top: 20, right: 16),
+    if (plans.isEmpty) {
+      return Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          children: [
+            Icon(Icons.event_available, size: 60, color: Colors.grey.shade400),
+            const SizedBox(height: 16),
+            Text(
+              'No plans scheduled',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              _filter == 'Daily'
+                  ? 'Add your first plan for today!'
+                  : 'Plans for this $_filter will appear here.',
+              textAlign: TextAlign.center,
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+          ],
+        ),
+      );
+    }
+
+    final allDone = plans.every((p) => p['done'] == true);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      elevation: 1,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Padding(
+            padding: const EdgeInsets.only(left: 16, top: 16, bottom: 8),
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.black87,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                if (allDone)
+                  Icon(
+                    Icons.check_circle,
+                    size: 18,
+                    color: Colors.green.shade600,
+                  ),
+              ],
+            ),
           ),
-          const SizedBox(height: 10),
-          ...plans.asMap().entries.map((entry) {
-            final index = entry.key;
-            final plan = entry.value;
-            return _buildPlanItem(plan, isLast: index == plans.length - 1);
+          if (allDone)
+            Padding(
+              padding: const EdgeInsets.only(left: 16, bottom: 8),
+              child: Text(
+                'All done! 🎉',
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Colors.green.shade700,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ...List.generate(plans.length, (index) {
+            return Column(
+              children: [
+                _buildPlanItem(plans[index]),
+                if (index < plans.length - 1)
+                  const Divider(height: 1, indent: 52, endIndent: 16),
+              ],
+            );
           }),
         ],
       ),
@@ -144,22 +255,26 @@ class _MyPlanPageState extends State<MyPlanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade200,
+      backgroundColor: Colors.grey.shade50,
       appBar: AppBar(
-        backgroundColor: Colors.grey.shade200,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.of(context).pop(),
         ),
         centerTitle: true,
         title: const Text(
-          "Plans",
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.w600),
+          "My Plans",
+          style: TextStyle(
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: const Icon(Icons.filter_list, color: Colors.black),
             onSelected: _changeFilter,
             itemBuilder: (context) => const [
               PopupMenuItem(value: "Daily", child: Text("Daily")),
@@ -167,17 +282,30 @@ class _MyPlanPageState extends State<MyPlanPage> {
               PopupMenuItem(value: "Monthly", child: Text("Monthly")),
             ],
           ),
+          const SizedBox(width: 12),
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Column(
           children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 8, bottom: 12),
+              child: Text(
+                "Viewing: $_filter",
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
             _buildSection("Today", todayPlans),
             _buildSection("Yesterday", yesterdayPlans),
+            const SizedBox(height: 32), // extra padding for bottom nav
           ],
         ),
       ),
-      // ✅ external bottom nav
       bottomNavigationBar: SafeArea(
         top: false,
         child: CustomBottomNavBar(

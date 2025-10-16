@@ -3,7 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:journapp/common/bottomNavigationBar.dart';
-import 'package:journapp/pages/journal/journalArchivePage%20.dart';
+import 'package:journapp/pages/journal/journalArchivePage.dart';
+import 'package:journapp/pages/resources/resource.dart';
 import 'package:journapp/pages/tutorial/tutorial.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -60,7 +61,7 @@ class _ProfilePageState extends State<ProfilePage> {
         centerTitle: true,
         actions: [
           PopupMenuButton<String>(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: const Icon(Icons.filter_list, color: Colors.black),
             itemBuilder: (context) => [
               const PopupMenuItem(value: "story", child: Text("My Story")),
               const PopupMenuItem(value: "resources", child: Text("Resources")),
@@ -75,8 +76,11 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 );
               } else if (value == "resources") {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Resources tapped")),
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ResourcesPage(),
+                  ),
                 );
               } else if (value == "about") {
                 Navigator.push(

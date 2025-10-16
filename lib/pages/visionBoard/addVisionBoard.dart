@@ -57,7 +57,7 @@ class _CreateVisionBoardPageState extends State<CreateVisionBoardPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
+            icon: const Icon(Icons.filter_list, color: Colors.black),
             onPressed: () {
               ScaffoldMessenger.of(
                 context,

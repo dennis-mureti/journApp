@@ -15,13 +15,10 @@ class _AiAssistantPageState extends State<AiAssistantPage> {
   final List<Map<String, String>> _messages =
       []; // {role: "user/ai", text: "..."}
 
-  /// Replace with your OpenAI API key
-  // final String _apiKey =
-  //     "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";
-
   final model = GenerativeModel(
     model: 'gemini-2.5-flash',
-    apiKey: "AIzaSyA9fSCqqMd7AB_fvQm0BmUa1kKTgPU0iDI",
+    // apiKey: "AIzaSyA9fSCqqMd7AB_fvQm0BmUa1kKTgPU0iDI",
+    apiKey: const String.fromEnvironment('API_KEY'),
   );
 
   Future<void> _sendMessage() async {
@@ -45,7 +42,7 @@ class _AiAssistantPageState extends State<AiAssistantPage> {
       final response = await model.generateContent(content);
       final aiReply =
           response.text ??
-          'Sorry, I couldn\'t generate a response. Please try again.';
+          'Sorry, couldn\'t generate a response. Please try again.';
 
       setState(() {
         _messages.removeLast(); // Remove "Thinking..."

@@ -6,14 +6,17 @@ import 'package:journapp/pages/goal/addGoal.dart';
 import 'package:journapp/pages/goal/myGoals.dart';
 import 'package:journapp/pages/home/home.dart';
 import 'package:journapp/pages/journal/journal.dart';
-import 'package:journapp/pages/journal/journalArchivePage%20.dart';
+import 'package:journapp/pages/journal/journalArchivePage.dart';
 import 'package:journapp/pages/journal/journallist.dart';
 import 'package:journapp/pages/journal/promptjournal.dart';
 import 'package:journapp/pages/login/login.dart';
 import 'package:journapp/pages/community/community.dart';
 import 'package:journapp/pages/myspace/mySpace.dart';
+import 'package:journapp/pages/plan/monthlyPlan.dart';
 import 'package:journapp/pages/plan/myPlan.dart';
+import 'package:journapp/pages/plan/weeklyPlan.dart';
 import 'package:journapp/pages/report/reportPage.dart';
+import 'package:journapp/pages/resources/resource.dart';
 import 'package:journapp/pages/signup/signup.dart';
 import 'package:journapp/pages/splash/splashScreenn.dart';
 import 'package:journapp/pages/profile/profile.dart';
@@ -54,6 +57,10 @@ final allRoutes = [
   GetPage(name: "/journalArchive", page: () => const JournalArchivePage()),
   GetPage(name: "/report", page: () => const ReportsPage()),
   GetPage(name: "/aiAssistant", page: () => const AiAssistantPage()),
+  GetPage(name: "/resources", page: () => const ResourcesPage()),
+  GetPage(name: "/weeklyPlan", page: () => const WeeklyPlanPage()),
+  GetPage(name: "/monthlyPlan", page: () => const MonthlyPlanPage()),
+
   // GetPage(
   //     name: "/visit",
   //     page: () => VisitPage(customers: [], activities: [])),
