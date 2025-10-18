@@ -17,49 +17,49 @@ class _ResourcesPageState extends State<ResourcesPage> {
       "title": "Self Reflection",
       "desc":
           "Learn how to look inward, understand your thoughts, and grow through journaling prompts.",
-      "image": "assets/reflection.png",
+      "image": "assets/r1.png",
     },
     {
       "title": "Mental Health Tips",
       "desc":
           "Practical advice and guidance to manage stress, anxiety, and emotional well-being.",
-      "image": "assets/mental.png",
+      "image": "assets/r2.png",
     },
     {
       "title": "Mindfulness",
       "desc":
           "Techniques to help you stay present, calm your mind, and develop self-awareness.",
-      "image": "assets/mindfulness.png",
+      "image": "assets/r3.png",
     },
     {
       "title": "Goal Setting",
       "desc":
           "Tools and motivation to set, track, and achieve personal and professional goals.",
-      "image": "assets/goal.png",
+      "image": "assets/r4.png",
     },
     {
       "title": "Sleep & Dreams",
       "desc":
           "Understand how sleep affects your mind and explore your dreams for deeper insights.",
-      "image": "assets/sleep.png",
+      "image": "assets/r5.png",
     },
     {
       "title": "Well-being & Health",
       "desc":
           "Holistic resources that support your physical, emotional, and mental health.",
-      "image": "assets/health.png",
+      "image": "assets/r6.png",
     },
     {
       "title": "Moon Cycle",
       "desc":
           "Explore how moon phases influence emotions, energy, and intentions.",
-      "image": "assets/moon.png",
+      "image": "assets/r7.png",
     },
     {
       "title": "Energy & Motivation",
       "desc":
           "Understand your energy highs and lows, and work with your natural rhythm.",
-      "image": "assets/energy.png",
+      "image": "assets/r8.png",
     },
   ];
 
@@ -67,13 +67,13 @@ class _ResourcesPageState extends State<ResourcesPage> {
     {
       "title": "1-on-1 Coaching",
       "desc": "Personalized sessions with wellness coaches to help you grow.",
-      "image": "assets/coaching.png",
+      "image": "assets/r2.png",
     },
     {
       "title": "Exclusive Masterclasses",
       "desc":
           "In-depth learning sessions with experts on mindfulness, health, and more.",
-      "image": "assets/masterclass.png",
+      "image": "assets/r4.png",
     },
   ];
 

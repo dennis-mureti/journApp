@@ -1,7 +1,6 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:journapp/config/api_config.dart';
 
 class AiAssistantPage extends StatefulWidget {
   const AiAssistantPage({super.key});
@@ -18,7 +17,8 @@ class _AiAssistantPageState extends State<AiAssistantPage> {
   final model = GenerativeModel(
     model: 'gemini-2.5-flash',
     // apiKey: "AIzaSyA9fSCqqMd7AB_fvQm0BmUa1kKTgPU0iDI",
-    apiKey: const String.fromEnvironment('API_KEY'),
+    // apiKey: const String.fromEnvironment('API_KEY'),
+    apiKey: ApiConfig.geminiApiKey,
   );
 
   Future<void> _sendMessage() async {
